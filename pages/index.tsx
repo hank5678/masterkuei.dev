@@ -1,5 +1,5 @@
-import Image from "next/image"
 import { Noto_Sans_TC } from "next/font/google"
+import Vaporwave from "@/components/vaporwave"
 
 const notoSansTC = Noto_Sans_TC({
   weight: ["400", "700"],
@@ -12,7 +12,7 @@ export default function Home() {
     <>
       {/* <div className="body-bg" /> */}
       <main
-        className={`${notoSansTC.className} w-full h-screen p-4 flex flex-col`}
+        className={`${notoSansTC.className} w-full h-screen p-10 flex flex-col`}
       >
         {/* <nav className="w-full h-10 flex-initial relative top-1">
           <ul className="flex h-full ml-4">
@@ -27,7 +27,8 @@ export default function Home() {
             </li>
           </ul>
         </nav> */}
-        <section className="w-full relative bg-gray-800 flex-1 rounded-lg border-t-8 border-t-gray-400 border-l-8 border-l-gray-400 border-r-8 border-r-gray-900 border-b-8 border-b-gray-900">
+        <section className="main-wrapper">
+          <Vaporwave />
           <div className="text-g flex flex-col items-center absolute-center">
             <p className="text-9xl glitch-text mb-6">masterkuei.dev</p>
             <p className="text-sm mb-4 text-zinc-600 ">
