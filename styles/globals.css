@@ -4,11 +4,149 @@
 
 @layer components {
   .glitch-text {
+    position: relative;
     @apply text-zinc-100;
     @apply font-bold;
-    text-shadow: -10px 10px 0px theme("colors.cyan.500"),
-      10px -10px 0px theme("colors.pink.500");
+    /* color: rgba(0, 0, 0, 0); */
+    /* text-shadow: -10px 10px 0px theme("colors.akblue.500"),
+      10px -10px 0px theme("colors.akred.500"); */
+    animation: text-glitch 1.5s infinite alternate step-end;
   }
+  .glitch-text::before,
+  .glitch-text::after {
+    content: attr(data-text);
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+    top: 0;
+  }
+
+  .glitch-text::before {
+    left: 5px;
+    text-shadow: -5px 5px theme("colors.akred.500");
+    animation: text-glitch-before 0.9s infinite linear alternate-reverse;
+  }
+  .glitch-text::after {
+    left: -5px;
+    text-shadow: -5px 5px theme("colors.akblue.500");
+    animation: text-glitch-after 1.3s infinite linear alternate-reverse;
+  }
+
+  @keyframes text-glitch {
+    21% {
+      transform: scaleX(0.93);
+    }
+
+    26% {
+      transform: skewX(-16deg);
+    }
+
+    35% {
+      transform: scaleX(1.09);
+    }
+
+    39% {
+      transform: skewX(0);
+    }
+
+    41% {
+      transform: scaleX(1);
+    }
+  }
+
+  @keyframes text-glitch-before {
+    0% {
+      clip: rect(192px, 980px, 191px, 0);
+    }
+
+    10% {
+      clip: rect(91px, 980px, 263px, 0);
+    }
+
+    20% {
+      clip: rect(116px, 980px, 64px, 0);
+    }
+
+    30% {
+      clip: rect(226px, 980px, 110px, 0);
+    }
+
+    40% {
+      clip: rect(265px, 980px, 51px, 0);
+    }
+
+    50% {
+      clip: rect(109px, 980px, 238px, 0);
+    }
+
+    60% {
+      clip: rect(28px, 980px, 153px, 0);
+    }
+
+    70% {
+      clip: rect(191px, 980px, 141px, 0);
+    }
+
+    80% {
+      clip: rect(15px, 980px, 67px, 0);
+    }
+
+    90% {
+      clip: rect(99px, 980px, 261px, 0);
+    }
+
+    100% {
+      clip: rect(255px, 980px, 80px, 0);
+    }
+  }
+
+  @keyframes text-glitch-after {
+    0% {
+      clip: rect(204px, 980px, 37px, 0);
+    }
+
+    10% {
+      clip: rect(70px, 980px, 256px, 0);
+    }
+
+    20% {
+      clip: rect(40px, 980px, 127px, 0);
+    }
+
+    30% {
+      clip: rect(256px, 980px, 182px, 0);
+    }
+
+    40% {
+      clip: rect(253px, 980px, 8px, 0);
+    }
+
+    50% {
+      clip: rect(16px, 980px, 255px, 0);
+    }
+
+    60% {
+      clip: rect(139px, 980px, 24px, 0);
+    }
+
+    70% {
+      clip: rect(222px, 980px, 145px, 0);
+    }
+
+    80% {
+      clip: rect(24px, 980px, 255px, 0);
+    }
+
+    90% {
+      clip: rect(27px, 980px, 177px, 0);
+    }
+
+    100% {
+      clip: rect(11px, 980px, 8px, 0);
+    }
+  }
+
   .button {
     position: relative;
     background-color: theme("colors.yellow.500");
@@ -79,13 +217,14 @@
     @apply relative;
     @apply w-full;
     @apply h-full;
-    @apply rounded-lg;
+    @apply rounded-3xl;
     @apply flex-1;
     @apply bg-gray-800;
-
-    border-top: 16px solid theme("colors.gray.400");
+    @apply p-3;
+    overflow: hidden;
+    /* border-top: 16px solid theme("colors.gray.400");
     border-left: 16px solid theme("colors.gray.400");
     border-right: 16px solid theme("colors.gray.900");
-    border-bottom: 16px solid theme("colors.gray.900");
+    border-bottom: 16px solid theme("colors.gray.900"); */
   }
 }
