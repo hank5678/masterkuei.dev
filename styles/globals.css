@@ -227,4 +227,26 @@
     border-right: 16px solid theme("colors.gray.900");
     border-bottom: 16px solid theme("colors.gray.900"); */
   }
+  .gradient-underline-text {
+    display: inline-block;
+    position: relative;
+    text-shadow: 1px 1px 0px rgba(0, 0, 0, 0.6);
+  }
+  .gradient-underline-text::before {
+    content: "";
+    display: block;
+    position: absolute;
+    bottom: -4px;
+    left: 50%;
+    width: 100%;
+    width: calc(100% + 4px);
+    height: 40%;
+    transform: translateX(-50%);
+
+    background: linear-gradient(
+      to right,
+      theme("colors.akblue.500") 0%,
+      theme("colors.akred.500") 100%
+    );
+  }
 }

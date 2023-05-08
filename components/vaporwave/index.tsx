@@ -9,7 +9,6 @@ import {
 } from "@react-three/fiber"
 import { TextureLoader } from "three/src/loaders/TextureLoader"
 import textureGrid from "@/assets/grid2.png"
-console.log(textureGrid.src)
 
 import { EffectComposer } from "three/examples/jsm/postprocessing/EffectComposer"
 import { ShaderPass } from "three/examples/jsm/postprocessing/ShaderPass"
