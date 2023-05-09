@@ -217,7 +217,7 @@
     @apply relative;
     @apply w-full;
     @apply h-full;
-    @apply rounded-3xl;
+    /* @apply rounded-3xl; */
     @apply flex-1;
     @apply bg-gray-800;
     @apply p-3;
