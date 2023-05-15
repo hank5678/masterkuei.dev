@@ -1,5 +1,5 @@
 ---
-title: "const vs let 就是要對決"
+title: "const vs let 如何選擇"
 excerpt: "var: 那我走？"
 date: "Tue, 02 May 2023 03:46:49 GMT"
 hashtag: "javascript"

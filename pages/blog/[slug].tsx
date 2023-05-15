@@ -28,7 +28,7 @@ type Props = {
 
 export default function Page({ post, morePosts, preview }: Props) {
   return (
-    <article className="w-full overflow-auto h-full">
+    <article className="w-full h-full">
       <div className="w-full max-w-4xl mx-auto">
         <h1 className="text-zinc-200">{post.title}</h1>
         <div

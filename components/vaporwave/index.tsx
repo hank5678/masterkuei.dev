@@ -193,7 +193,7 @@ const Scene = () => {
 
 export default function Vaporwave() {
   return (
-    <div className="absolute top-0 left-0 w-full h-full">
+    <div className="fixed top-0 left-0 w-full h-full">
       <Canvas
         camera={{ position: [0, 0.06, 1.1], fov: 75, near: 0.01, far: 20 }}
       >
