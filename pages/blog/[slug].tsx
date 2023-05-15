@@ -28,8 +28,8 @@ type Props = {
 
 export default function Page({ post, morePosts, preview }: Props) {
   return (
-    <article className="w-full h-full">
-      <div className="w-full max-w-4xl mx-auto">
+    <article className="mt-32 h-full w-full">
+      <div className="mx-auto w-full max-w-7xl">
         <h1 className="text-zinc-200">{post.title}</h1>
         <div
           className={markdownStyles["markdown"]}

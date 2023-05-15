@@ -1,6 +1,6 @@
 export default function About() {
   return (
-    <section className="pt-20">
+    <section className="mt-32">
       <div className="mx-auto w-full max-w-7xl px-4">
         <h2 className="my-8 text-6xl font-bold">技能</h2>
         <p className="my-3">

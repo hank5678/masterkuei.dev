@@ -71,7 +71,7 @@ const hashtag = ["全部", "#javascript", "#html", "#css", "#react", "#vue"]
 
 export default function Blog({ allPosts }: { allPosts: IPost[] }) {
   return (
-    <section className="pt-20">
+    <section className="mt-32">
       <div className="mb-6 flex items-center justify-center">
         <ul className="mr-5 flex">
           {hashtag.map((el, id, arr) => (
