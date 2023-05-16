@@ -1,5 +1,6 @@
-import { useState, useMemo, useEffect, Suspense } from "react"
+import { useMemo, useEffect, useRef, Suspense } from "react"
 import * as THREE from "three"
+import { Mesh } from "three"
 import {
   Canvas,
   useThree,
@@ -27,26 +28,6 @@ const METALNESS_PATH =
 
 extend({ EffectComposer, ShaderPass, RenderPass })
 
-// #c5fff9
-// #9efff2
-// #6dffe9
-// #3dffd9
-// #00efe4 xxx
-// #00c5bf
-// #008e8a
-// #005856
-// #002d22
-
-// #ffb9dc
-// #ff8ecf
-// #ff5ebf
-// #ff2f99
-// #ff008b xxx
-// #d40077
-// #a2005c
-// #710042
-// #3f001e
-
 // https://codesandbox.io/s/r3f-selective-bloom-forked-j8gk9r?file=/src/index.js
 function Effect() {
   const { gl, scene, camera, size } = useThree()
@@ -69,13 +50,11 @@ function Effect() {
   }, [])
 
   useEffect(() => {
-    // base.setSize(size.width, size.height)
     final.setSize(size.width, size.height)
     final.setPixelRatio(Math.min(window.devicePixelRatio, 2))
   }, [final, size])
 
   useFrame(() => {
-    // base.render()
     final.render()
   }, 1)
 
@@ -83,25 +62,13 @@ function Effect() {
 }
 
 const Scene = () => {
-  // const ref = useRef()
-  const [mesh1Position, setMesh1Position] = useState<[number, number, number]>([
-    0, 0, 0.15
-  ])
-  const [mesh2Position, setMesh2Position] = useState<[number, number, number]>([
-    0, 0, -1.85
-  ])
-  // const { size, scene, camera, gl } = useThree()
+  const mesh1Ref = useRef<Mesh>(null!)
+  const mesh2Ref = useRef<Mesh>(null!)
+
   const [gridTexture, terrainTexture, metalnessTexture] = useLoader(
     TextureLoader,
     [textureGrid.src, DISPLACEMENT_PATH, METALNESS_PATH]
   )
-
-  useFrame((state) => {
-    const elapsedTime = state.clock.getElapsedTime()
-    // Update controls
-    setMesh1Position((p) => [p[0], p[1], (elapsedTime * 0.15) % 2])
-    setMesh2Position((p) => [p[0], p[1], ((elapsedTime * 0.15) % 2) - 2])
-  })
 
   const spotLight1 = useMemo(() => {
     return new THREE.SpotLight()
@@ -115,7 +82,7 @@ const Scene = () => {
 
   const rotation = useMemo<[number, number, number]>(() => {
     if (window) {
-      const offset = 0.0002
+      const offset = 0.0005
       return [
         -(mousePosition.y - window.innerHeight / 2) * offset,
         -(mousePosition.x - window.innerWidth / 2) * offset,
@@ -126,11 +93,21 @@ const Scene = () => {
     }
   }, [mousePosition])
 
-  useEffect(() => {
-    camera.rotation.x = rotation[0]
-    camera.rotation.y = rotation[1]
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [rotation])
+  useFrame((state) => {
+    const elapsedTime = state.clock.getElapsedTime()
+    mesh1Ref.current.position.z = (elapsedTime * 0.15) % 2
+    mesh2Ref.current.position.z = ((elapsedTime * 0.15) % 2) - 2
+    camera.rotation.x = THREE.MathUtils.lerp(
+      camera.rotation.x,
+      rotation[0],
+      0.05
+    )
+    camera.rotation.y = THREE.MathUtils.lerp(
+      camera.rotation.y,
+      rotation[1],
+      0.05
+    )
+  })
 
   return (
     <>
@@ -158,8 +135,12 @@ const Scene = () => {
       />
       <primitive object={spotLight2.target} position={[0.4, 0.25, 0.25]} />
 
-      <mesh position={mesh1Position} rotation={[-Math.PI * 0.5, 0, 0]}>
-        <planeGeometry args={[1, 2, 24, 24]} />
+      <mesh
+        ref={mesh1Ref}
+        position={[0, 0, 0.15]}
+        rotation={[-Math.PI * 0.5, 0, 0]}
+      >
+        <planeBufferGeometry args={[1, 2, 24, 24]} />
         <meshStandardMaterial
           map={gridTexture}
           displacementMap={terrainTexture}
@@ -172,8 +153,12 @@ const Scene = () => {
           wireframe={true}
         />
       </mesh>
-      <mesh position={mesh2Position} rotation={[-Math.PI * 0.5, 0, 0]}>
-        <planeGeometry args={[1, 2, 24, 24]} />
+      <mesh
+        ref={mesh2Ref}
+        position={[0, 0, -1.85]}
+        rotation={[-Math.PI * 0.5, 0, 0]}
+      >
+        <planeBufferGeometry args={[1, 2, 24, 24]} />
         <meshStandardMaterial
           map={gridTexture}
           displacementMap={terrainTexture}
@@ -193,8 +178,10 @@ const Scene = () => {
 
 export default function Vaporwave() {
   return (
-    <div className="fixed top-0 left-0 w-full h-full">
+    <div className="fixed left-0 top-0 h-full w-full">
       <Canvas
+        dpr={1}
+        performance={{ min: 0.1, max: 1 }}
         camera={{ position: [0, 0.06, 1.1], fov: 75, near: 0.01, far: 20 }}
       >
         <color attach="background" args={["#1e1e28"]} />
