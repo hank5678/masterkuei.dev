@@ -1,8 +1,29 @@
+import { useRouter } from "next/router"
+import Link from "next/link"
+import classNames from "classnames"
+
+const pages = [
+  {
+    name: "首頁",
+    href: "/"
+  },
+  {
+    name: "關於我",
+    href: "/about"
+  },
+  {
+    name: "部落格",
+    href: "/blog"
+  }
+]
+
 export default function Home() {
+  const router = useRouter()
+
   return (
     <>
       <section className="text-g flex h-screen w-full items-center justify-center">
-        <div className="flex flex-col">
+        <div className="flex flex-col items-center">
           <h1 className="glitch-text mb-6 text-9xl" data-text="masterkuei.dev">
             masterkuei.dev
           </h1>
@@ -39,13 +60,32 @@ export default function Home() {
             <span className="relative">和我聊聊</span>
           </a> */}
           </p>
-          {/* <nav className="flex before:content-['['] after:content-[']'] text-zinc-200 text-2xl font-normal">
-          <ul className="flex items-center">
-            <li className="after:content-[','] mr-2">首頁</li>
-            <li className="after:content-[','] mr-2">關於我</li>
-            <li>部落格</li>
-          </ul>
-        </nav> */}
+          <nav className="flex text-2xl font-light text-zinc-200 before:content-['['] after:content-[']']">
+            <ul className="flex items-center">
+              {pages.map((el, id, arr) => {
+                const active = el.href === router.pathname
+                const isLastElement = id === arr.length - 1
+                return (
+                  <li
+                    key={id}
+                    className={classNames("mx-1", {
+                      "after:content-[',']": !isLastElement,
+                      "mr-2": !isLastElement
+                    })}
+                  >
+                    {/* <span>&quot;</span> */}
+                    <Link
+                      href={el.href}
+                      className={classNames({ "font-bold": active })}
+                    >
+                      {el.name}
+                    </Link>
+                    {/* <span>&quot;</span> */}
+                  </li>
+                )
+              })}
+            </ul>
+          </nav>
         </div>
       </section>
     </>
