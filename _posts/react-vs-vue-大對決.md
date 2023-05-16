@@ -10,7 +10,13 @@ ogImage:
 
 ## 什麼是 React？
 
+React 是 facebook 開發的一個為資料提供彩現為 HTML 視圖的開源 JavaScript 庫。[React](https://nextjs.org/) 視圖通常採用包含以自訂 HTML 標記規定的其他元件的元件彩現。React 為**程式設計師**提供了一種子元件不能直接影響外層元件（”data flows down”）的模型，資料改變時對 HTML 文件的有效更新，和現代單頁應用中元件之間乾淨的分離。React 是 facebook 開發的一個為資料提供彩現為 HTML 視圖的開源 JavaScript 庫。React 視圖通常採用包含以自訂 HTML 標記規定的其他元件的元件彩現。React 為程式設計師提供了一種子元件不能直接影響外層元件（”data flows down”）的模型，資料改變時對 HTML 文件的有效更新，和現代單頁應用中元件之間乾淨的分離。
+
+React 是 facebook 開發的一個為資料提供彩現為 HTML 視圖的開源 JavaScript 庫。React 視圖通常採用包含以自訂 HTML 標記規定的其他元件的元件彩現。React 為程式設計師提供了一種子元件不能直接影響外層元件（”data flows down”）的模型，資料改變時對 HTML 文件的有效更新，和現代單頁應用中元件之間乾淨的分離。React 是 facebook 開發的一個為資料提供彩現為 HTML 視圖的開源 JavaScript 庫。React 視圖通常採用包含以自訂 HTML 標記規定的其他元件的元件彩現。React 為程式設計師提供了一種子元件不能直接影響外層元件（”data flows down”）的模型，資料改變時對 HTML 文件的有效更新，和現代單頁應用中元件之間乾淨的分離。React 是 facebook 開發的一個為資料提供彩現為 HTML 視圖的開源 JavaScript 庫。React 視圖通常採用包含以自訂 HTML 標記規定的其他元件的元件彩現。React 為程式設計師提供了一種子元件不能直接影響外層元件（”data flows down”）的模型，資料改變時對 HTML 文件的有效更新，和現代單頁應用中元件之間乾淨的分離。
+
 React 是 facebook 開發的一個為資料提供彩現為 HTML 視圖的開源 JavaScript 庫。React 視圖通常採用包含以自訂 HTML 標記規定的其他元件的元件彩現。React 為程式設計師提供了一種子元件不能直接影響外層元件（”data flows down”）的模型，資料改變時對 HTML 文件的有效更新，和現代單頁應用中元件之間乾淨的分離。
+
+---
 
 ## React 特色？
 
@@ -20,6 +26,15 @@ React 是 facebook 開發的一個為資料提供彩現為 HTML 視圖的開源 
 - 父子 Component 可透過 props 通訊
 - 只負責 MVC 的 View 部份，所以不算框架，彈性高
 - 因為完全是 JS 操作 UI 的關係，使得它可以跟後端分離，達到即時互動、自動更新的效果 \*只是一個 JS 函式庫，所以容量小易移植
+
+以下是測試
+
+1. 用純 JS 在前端產生 HTML （一般來說是在後端產生 HTML 送到前端）
+1. 使用 Virtual DOM，重繪時效率高
+1. 自定義 Component，方便開發
+1. 父子 Component 可透過 props 通訊
+1. 只負責 MVC 的 View 部份，所以不算框架，彈性高
+1. 因為完全是 JS 操作 UI 的關係，使得它可以跟後端分離，達到即時互動、自動更新的效果 \*只是一個 JS 函式庫，所以容量小易移植
 
 ## 什麼是 Vue.js？
 
@@ -37,31 +52,85 @@ Vue.js（或簡稱為 Vue）是一個用於建立使用者介面的開源 JavaSc
 React 範例：
 
 ```javascript
-<body>
-    <div id="app"></div>
-</body>
-<script type="text/babel">
-    ReactDOM.render(
-      <h1>Hello, world!</h1>,
-      document.getElementById('app')
-    );
+import { useState, useEffect } from "react"
+
+export default function useDebounce<T>(value: T, delay: number): T {
+  // State and setters for debounced value
+  const [debouncedValue, setDebouncedValue] = useState < T > value
+  useEffect(
+    () => {
+      // Update debounced value after delay
+      const handler = setTimeout(() => {
+        setDebouncedValue(value)
+      }, delay)
+      // Cancel the timeout if value changes (also on delay change or unmount)
+      // This is how we prevent debounced value from updating if value is changed ...
+      // .. within the delay period. Timeout gets cleared and restarted.
+      return () => {
+        clearTimeout(handler)
+      }
+    },
+    [value, delay] // Only re-call effect if value or delay changes
+  )
+  return debouncedValue
+}
+```
+
+html 範例：
+
+```xml
+<!DOCTYPE html>
+<title>Title</title>
+
+<style>body {width: 500px;}</style>
+
+<script type="application/javascript">
+  function $init() {return true;}
 </script>
+
+<body>
+  <p checked class="title" id='title'>Title</p>
+  <!-- here goes the rest of the page -->
+</body>
+```
+
+css 範例：
+
+```css
+div {
+  width: 50%;
+}
+.myClass {
+  font-size: 16px;
+}
+#myID {
+  font-size: 20px;
+  color: #66ccff;
+}
 ```
 
 Vue 範例：
 
-```javascript
+```xml
 <body>
     <div id="app">
       <p>{{ message }}</p>
     </div>
 </body>
+<style>
+body {
+  font-size: 16px;
+}
+#app {
+  color: #ff0000;
+}
+</style>
 <script>
-    new Vue({
-      el: '#app',
-      data: {
-        message: 'Hello World'
-      }
-    });
+new Vue({
+  el: "#app",
+  data: {
+    message: "Hello World"
+  }
+})
 </script>
 ```

@@ -92,7 +92,6 @@ const Scene = () => {
       return [0, 0, 0]
     }
   }, [mousePosition])
-  console.log(mousePosition)
 
   useFrame((state) => {
     const elapsedTime = state.clock.getElapsedTime()
