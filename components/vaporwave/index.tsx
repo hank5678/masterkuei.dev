@@ -84,7 +84,7 @@ const Scene = () => {
     if (window) {
       const offset = 0.0005
       return [
-        -(mousePosition.y - window.innerHeight / 2) * offset,
+        -(mousePosition.y - window.innerHeight / 2) * offset - 0.2,
         -(mousePosition.x - window.innerWidth / 2) * offset,
         0
       ]
@@ -92,6 +92,7 @@ const Scene = () => {
       return [0, 0, 0]
     }
   }, [mousePosition])
+  console.log(mousePosition)
 
   useFrame((state) => {
     const elapsedTime = state.clock.getElapsedTime()
@@ -140,7 +141,7 @@ const Scene = () => {
         position={[0, 0, 0.15]}
         rotation={[-Math.PI * 0.5, 0, 0]}
       >
-        <planeBufferGeometry args={[1, 2, 24, 24]} />
+        <planeGeometry args={[1, 2, 24, 24]} />
         <meshStandardMaterial
           map={gridTexture}
           displacementMap={terrainTexture}
@@ -158,7 +159,7 @@ const Scene = () => {
         position={[0, 0, -1.85]}
         rotation={[-Math.PI * 0.5, 0, 0]}
       >
-        <planeBufferGeometry args={[1, 2, 24, 24]} />
+        <planeGeometry args={[1, 2, 24, 24]} />
         <meshStandardMaterial
           map={gridTexture}
           displacementMap={terrainTexture}
