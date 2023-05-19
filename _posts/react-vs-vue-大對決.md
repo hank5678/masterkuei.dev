@@ -1,11 +1,8 @@
 ---
 title: "React vs Vue 大對決"
 excerpt: "到底有什麼差別？學哪一個才好？"
-date: "Tue, 09 May 2023 03:46:49 GMT"
-hashtag: "reactjs,vuejs"
-coverImage: "/assets/blog/hello-world/cover.jpg"
-ogImage:
-  url: "/assets/blog/hello-world/cover.jpg"
+date: 1684307897005
+hashtag: ["reactjs", "vuejs"]
 ---
 
 ## 什麼是 React？

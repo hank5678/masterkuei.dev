@@ -2,6 +2,7 @@ import dayjs from "dayjs"
 import Link from "next/link"
 import { getAllPosts } from "@/lib/api"
 import classNames from "classnames"
+import { useState, useMemo } from "react"
 
 interface IPost {
   date: string
@@ -10,35 +11,6 @@ interface IPost {
   slug: string
   hashtag: string[]
 }
-
-// const Post = ({
-//   date = "",
-//   title = "",
-//   excerpt = "",
-//   slug = "",
-//   hashtag = []
-// }: IPost) => {
-//   return (
-//     <Link as={`/blog/${slug}`} href="/blog/[slug]">
-//       <div className="my-16">
-//         <p className="text-xs text-zinc-200">
-//           <span className="mr-3">{dayjs(date).format("YYYY/MM/DD")}</span>
-//           <span className="text-zinc-200">
-//             {hashtag.map((el) => (
-//               <span key={el} className="mr-1">
-//                 #{el}
-//               </span>
-//             ))}
-//           </span>
-//         </p>
-//         <p className="text-4xl text-zinc-200 gradient-underline-text font-bold mb-2">
-//           <span className="inline-block relative">{title}</span>
-//         </p>
-//         <p className="text-base text-zinc-200">{excerpt}</p>
-//       </div>
-//     </Link>
-//   )
-// }
 
 const Post = ({
   date = "",
@@ -67,9 +39,24 @@ const Post = ({
   )
 }
 
-const hashtag = ["全部", "#javascript", "#html", "#css", "#react", "#vue"]
+export default function Blog({
+  allPosts,
+  hashtag
+}: {
+  allPosts: IPost[]
+  hashtag: { name: string; count: number }[]
+}) {
+  const [selectedHashtag, setSelectedHashtag] = useState("全部")
+  const filteredPosts = useMemo(() => {
+    return allPosts.filter((post) => {
+      if (selectedHashtag === "全部") {
+        return allPosts
+      } else {
+        return post.hashtag.includes(selectedHashtag)
+      }
+    })
+  }, [selectedHashtag, allPosts])
 
-export default function Blog({ allPosts }: { allPosts: IPost[] }) {
   return (
     <section className="mt-32">
       <div className="mb-6 flex items-center justify-center">
@@ -83,26 +70,27 @@ export default function Blog({ allPosts }: { allPosts: IPost[] }) {
               })}
             >
               <span
-                data-num="9"
-                // className="after:content relative text-zinc-200 underline after:absolute after:-right-3 after:-top-1 after:text-xs after:content-[attr(data-num)]"
+                data-num={el.count}
+                onClick={() => {
+                  setSelectedHashtag(el.name)
+                }}
                 className={classNames(
-                  "after:content relative cursor-pointer underline after:absolute after:-right-3 after:-top-1 after:text-xs after:content-[attr(data-num)]",
+                  "after:content relative cursor-pointer transition-colors duration-300 after:absolute after:-right-3 after:-top-1 after:text-xs after:content-[attr(data-num)] hover:underline",
                   {
-                    "text-akred-500": id === 0,
-                    "text-zinc-200": id !== 0
+                    "text-akblue-500": el.name === selectedHashtag,
+                    "text-zinc-200": el.name !== selectedHashtag
                   }
                 )}
               >
-                {el}
-                {/* <span className="absolute -right-4 -top-1 text-xs">10</span> */}
+                {el.name}
               </span>
             </li>
           ))}
         </ul>
-        <button className="gradient-box px-6 py-3">更多標籤</button>
+        {/* <button className="gradient-box px-6 py-3">更多標籤</button> */}
       </div>
       <div className="mx-auto flex w-full max-w-5xl flex-wrap">
-        {allPosts.map((el, id) => (
+        {filteredPosts.map((el, id) => (
           <Post
             key={id}
             date={el.date}
@@ -119,8 +107,28 @@ export default function Blog({ allPosts }: { allPosts: IPost[] }) {
 
 export const getStaticProps = async () => {
   const allPosts = getAllPosts(["date", "title", "excerpt", "hashtag", "slug"])
+  const hashtag = [
+    { name: "全部", count: allPosts.length },
+    ...allPosts
+      .map((el) => el.hashtag)
+      .reduce<string[]>((acc, cur) => [...acc, ...cur], [] as string[])
+      .reduce((acc, cur, id, arr) => {
+        if (acc.some((el) => el.name === cur)) {
+          return acc.map((el) => {
+            if (el.name === cur) {
+              return { ...el, count: el.count + 1 }
+            } else {
+              return el
+            }
+          })
+        } else {
+          return [...acc, { name: cur, count: 1 }]
+        }
+      }, [] as { name: string; count: number }[])
+  ].sort((a, b) => b.count - a.count)
 
+  console.log(hashtag)
   return {
-    props: { allPosts }
+    props: { allPosts, hashtag }
   }
 }

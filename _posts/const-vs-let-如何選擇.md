@@ -1,11 +1,8 @@
 ---
 title: "const vs let 如何選擇"
 excerpt: "var: 那我走？"
-date: "Tue, 02 May 2023 03:46:49 GMT"
-hashtag: "javascript"
-coverImage: "/assets/blog/hello-world/cover.jpg"
-ogImage:
-  url: "/assets/blog/hello-world/cover.jpg"
+date: 1684307897005
+hashtag: ["javascript"]
 ---
 
 Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Praesent elementum facilisis leo vel fringilla est ullamcorper eget. At imperdiet dui accumsan sit amet nulla facilities morbi tempus. Praesent elementum facilisis leo vel fringilla. Congue mauris rhoncus aenean vel. Egestas sed tempus urna et pharetra pharetra massa massa ultricies.
