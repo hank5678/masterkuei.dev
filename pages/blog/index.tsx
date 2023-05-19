@@ -2,7 +2,8 @@ import dayjs from "dayjs"
 import Link from "next/link"
 import { getAllPosts } from "@/lib/api"
 import classNames from "classnames"
-import { useState, useMemo } from "react"
+import { useState, useMemo, useEffect } from "react"
+import { useAnimate, stagger, motion, AnimatePresence } from "framer-motion"
 
 interface IPost {
   date: string
@@ -20,7 +21,7 @@ const Post = ({
   hashtag = []
 }: IPost) => {
   return (
-    <Link as={`/blog/${slug}`} href="/blog/[slug]" className="w-1/2 p-5">
+    <Link as={`/blog/${slug}`} href="/blog/[slug]" className="w-full">
       <div className="gradient-box p-4">
         <p className="text-xs text-zinc-200">
           {dayjs(date).format("YYYY/MM/DD")}
@@ -57,8 +58,37 @@ export default function Blog({
     })
   }, [selectedHashtag, allPosts])
 
+  const [scope, animate] = useAnimate()
+
+  const updateHashtag = async (name: string) => {
+    await animate(
+      ".hanktest",
+      { opacity: [1, 0], x: [0, 30], y: [0, 30] },
+      {
+        duration: 0.3,
+        delay: stagger(0.1, { startDelay: 0.15 })
+      }
+    )
+    setSelectedHashtag(name)
+
+    // await animate(
+    //   "a",
+    //   { opacity: [0, 1] },
+    //   { duration: 0.3, delay: stagger(0.1, { startDelay: 0.15 }) }
+    // )
+  }
+
+  useEffect(() => {
+    animate(
+      ".hanktest",
+      { opacity: [0, 1], x: [-30, 0], y: [-30, 0] },
+      { duration: 0.3, delay: stagger(0.1, { startDelay: 0.15 }) }
+    )
+  }, [filteredPosts])
+
   return (
     <section className="mt-32">
+      {/* <button onClick={test}>test</button> */}
       <div className="mb-6 flex items-center justify-center">
         <ul className="mr-5 flex">
           {hashtag.map((el, id, arr) => (
@@ -72,7 +102,7 @@ export default function Blog({
               <span
                 data-num={el.count}
                 onClick={() => {
-                  setSelectedHashtag(el.name)
+                  updateHashtag(el.name)
                 }}
                 className={classNames(
                   "after:content relative cursor-pointer transition-colors duration-300 after:absolute after:-right-3 after:-top-1 after:text-xs after:content-[attr(data-num)] hover:underline",
@@ -89,16 +119,17 @@ export default function Blog({
         </ul>
         {/* <button className="gradient-box px-6 py-3">更多標籤</button> */}
       </div>
-      <div className="mx-auto flex w-full max-w-5xl flex-wrap">
+      <div className="mx-auto flex w-full max-w-5xl flex-wrap" ref={scope}>
         {filteredPosts.map((el, id) => (
-          <Post
-            key={id}
-            date={el.date}
-            title={el.title}
-            excerpt={el.excerpt}
-            hashtag={el.hashtag}
-            slug={el.slug}
-          />
+          <div className="hanktest relative w-1/2 p-5" key={el.title}>
+            <Post
+              date={el.date}
+              title={el.title}
+              excerpt={el.excerpt}
+              hashtag={el.hashtag}
+              slug={el.slug}
+            />
+          </div>
         ))}
       </div>
     </section>
