@@ -1,7 +1,7 @@
 export default function About() {
   return (
-    <section className="pt-20">
-      <div className="mx-auto w-full max-w-7xl px-4">
+    <section>
+      <div className="mx-auto w-full max-w-7xl px-6">
         <h2 className="my-8 text-6xl font-bold">技能</h2>
         <p className="my-3">
           核心：react.js / typescript / tailwindcss / css-in-js / sass / redux /

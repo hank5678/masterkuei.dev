@@ -17,12 +17,10 @@ export default function App({ Component, pageProps }: AppProps) {
   return (
     <main className={`${notoSansTC.className} w-full`}>
       {router.pathname !== "/" && <Nav />}
-      {/* <section className="main-wrapper"> */}
       <Vaporwave />
-      <div className="relative">
+      <section className="relative">
         <Component {...pageProps} />
-      </div>
-      {/* </section> */}
+      </section>
     </main>
   )
 }

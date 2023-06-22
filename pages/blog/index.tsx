@@ -87,8 +87,7 @@ export default function Blog({
   }, [filteredPosts])
 
   return (
-    <section className="mt-32">
-      {/* <button onClick={test}>test</button> */}
+    <section>
       <div className="mb-6 flex items-center justify-center">
         <ul className="mr-5 flex">
           {hashtag.map((el, id, arr) => (

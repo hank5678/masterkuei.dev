@@ -29,84 +29,82 @@ type Props = {
 
 export default function Page({ post, morePosts, preview }: Props) {
   return (
-    <>
-      <article className="mt-32 h-full w-full">
-        <div className="mx-auto w-full max-w-7xl text-base text-zinc-200">
-          <h1 className="mb-10 text-center text-4xl font-bold">{post.title}</h1>
-          <ReactMarkdown
-            components={{
-              h2: ({ node, className, children, ...props }) => {
-                return (
-                  <h2 className="mb-6 mt-16 text-3xl font-bold leading-7">
-                    {children}
-                  </h2>
-                )
-              },
-              p: ({ node, className, children, ...props }) => {
-                return <p className="mb-6 leading-7">{children}</p>
-              },
-              ul: ({ node, className, children, ...props }) => {
-                return <ul className="mb-6 ml-8 list-disc">{children}</ul>
-              },
-              ol: ({ node, className, children, ...props }) => {
-                return <ul className="mb-6 ml-8 list-decimal">{children}</ul>
-              },
-              li: ({ node, className, children, ...props }) => {
-                return <li className="mb-2">{children}</li>
-              },
-              hr: ({ node, className, children, ...props }) => {
-                return <hr className="my-8">{children}</hr>
-              },
-              a: ({ node, className, children, ...props }) => {
-                return (
-                  <a
-                    {...props}
-                    target="_blank"
-                    className="text-akblue-500 hover:underline"
-                  >
-                    {children}
-                  </a>
-                )
-              },
-              pre: ({ node, className, children, ...props }) => {
-                return <pre className="mb-6">{children}</pre>
-              },
-              strong: ({ node, className, children, ...props }) => {
-                return <strong className="font-bold">{children}</strong>
-              },
-              code: ({ node, inline, className, children, ...props }) => {
-                const match = /language-(\w+)/.exec(className || "")
-                return !inline && match ? (
-                  <SyntaxHighlighter
-                    {...props}
-                    showLineNumbers={true}
-                    style={syntaxStyle}
-                    language={match[1]}
-                    customStyle={{ borderRadius: 6 }}
-                    PreTag="div"
-                  >
-                    {String(children).replace(/\n$/, "")}
-                  </SyntaxHighlighter>
-                ) : (
-                  <code
-                    {...props}
-                    className="rounded-md bg-[rgb(35,36,31)] px-2 py-1"
-                  >
-                    {children}
-                  </code>
-                )
-              }
-            }}
-          >
-            {post.content}
-          </ReactMarkdown>
-          {/* <div
+    <article>
+      <div className="mx-auto w-full max-w-7xl px-6 text-base text-zinc-200">
+        <h1 className="mb-10 text-center text-4xl font-bold">{post.title}</h1>
+        <ReactMarkdown
+          components={{
+            h2: ({ node, className, children, ...props }) => {
+              return (
+                <h2 className="mb-6 mt-16 text-3xl font-bold leading-7">
+                  {children}
+                </h2>
+              )
+            },
+            p: ({ node, className, children, ...props }) => {
+              return <p className="mb-6 leading-7">{children}</p>
+            },
+            ul: ({ node, className, children, ...props }) => {
+              return <ul className="mb-6 ml-8 list-disc">{children}</ul>
+            },
+            ol: ({ node, className, children, ...props }) => {
+              return <ul className="mb-6 ml-8 list-decimal">{children}</ul>
+            },
+            li: ({ node, className, children, ...props }) => {
+              return <li className="mb-2">{children}</li>
+            },
+            hr: ({ node, className, children, ...props }) => {
+              return <hr className="my-8">{children}</hr>
+            },
+            a: ({ node, className, children, ...props }) => {
+              return (
+                <a
+                  {...props}
+                  target="_blank"
+                  className="text-akblue-500 hover:underline"
+                >
+                  {children}
+                </a>
+              )
+            },
+            pre: ({ node, className, children, ...props }) => {
+              return <pre className="mb-6">{children}</pre>
+            },
+            strong: ({ node, className, children, ...props }) => {
+              return <strong className="font-bold">{children}</strong>
+            },
+            code: ({ node, inline, className, children, ...props }) => {
+              const match = /language-(\w+)/.exec(className || "")
+              return !inline && match ? (
+                <SyntaxHighlighter
+                  {...props}
+                  showLineNumbers={true}
+                  style={syntaxStyle}
+                  language={match[1]}
+                  customStyle={{ borderRadius: 6 }}
+                  PreTag="div"
+                >
+                  {String(children).replace(/\n$/, "")}
+                </SyntaxHighlighter>
+              ) : (
+                <code
+                  {...props}
+                  className="rounded-md bg-[rgb(35,36,31)] px-2 py-1"
+                >
+                  {children}
+                </code>
+              )
+            }
+          }}
+        >
+          {post.content}
+        </ReactMarkdown>
+        {/* <div
           className={markdownStyles["markdown"]}
           dangerouslySetInnerHTML={{ __html: post.content }}
         /> */}
-        </div>
-      </article>
-    </>
+      </div>
+    </article>
   )
 }
 
